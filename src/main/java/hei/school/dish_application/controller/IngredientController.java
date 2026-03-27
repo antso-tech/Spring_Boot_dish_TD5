@@ -19,7 +19,7 @@ public class IngredientController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<?> getMethodName() {
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(ingredientRepository.getIngredients());
     }
