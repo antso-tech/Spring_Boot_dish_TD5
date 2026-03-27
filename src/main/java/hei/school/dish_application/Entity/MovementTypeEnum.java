@@ -1,5 +1,5 @@
 package hei.school.dish_application.Entity;
 
-public class User {
-    
+public enum MovementTypeEnum {
+    IN, OUT
 }
