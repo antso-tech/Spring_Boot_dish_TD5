@@ -1,6 +1,5 @@
 package hei.school.dish_application.Repository;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +36,7 @@ public class IngredientRepository{
             ingredient.setName(ingredientName);
             ingredient.setPrice(ingredientPrice);
             ingredient.setCategory(category);
-            
+
             ingredients.add(ingredient);
 
         }
