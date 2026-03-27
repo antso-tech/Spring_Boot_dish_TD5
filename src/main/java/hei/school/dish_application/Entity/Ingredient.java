@@ -6,6 +6,10 @@ public class Ingredient {
     private long price;
     private CategoryEnum category;
     
+    
+    public Ingredient() {
+    }
+
     public Ingredient(int id, String name, long price, CategoryEnum category) {
         this.id = id;
         this.name = name;

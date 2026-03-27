@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hei.school.dish_application.DataSource.DataSource;
+import hei.school.dish_application.Entity.CategoryEnum;
 import hei.school.dish_application.Entity.Ingredient;
 
 public class IngredientRepository{
@@ -26,13 +27,22 @@ public class IngredientRepository{
         List<Ingredient> ingredients = new ArrayList<>();
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
+            Ingredient ingredient = new Ingredient();
             int idIngredient = rs.getInt("id");
-            String IngredientName = rs.getString("name");
-            long IngredientPrice = rs.getLong("price");
-            
+            String ingredientName = rs.getString("name");
+            long ingredientPrice = rs.getLong("price");
+            CategoryEnum category = CategoryEnum.valueOf(rs.getString("category"));
 
+            ingredient.setId(idIngredient);
+            ingredient.setName(ingredientName);
+            ingredient.setPrice(ingredientPrice);
+            ingredient.setCategory(category);
+            
+            ingredients.add(ingredient);
 
         }
+
+        return ingredients;
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
