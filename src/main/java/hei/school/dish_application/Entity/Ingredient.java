@@ -1,16 +1,16 @@
 package hei.school.dish_application.Entity;
 
-public class Dish {
+public class Ingredient {
     private int id;
     private String name;
-    private DishtypeEnum dishType;
-    private Double price;
+    private long price;
+    private CategoryEnum category;
     
-    public Dish(int id, String name, DishtypeEnum dishType, Double price) {
+    public Ingredient(int id, String name, long price, CategoryEnum category) {
         this.id = id;
         this.name = name;
-        this.dishType = dishType;
         this.price = price;
+        this.category = category;
     }
 
     public int getId() {
@@ -29,20 +29,20 @@ public class Dish {
         this.name = name;
     }
 
-    public DishtypeEnum getDishType() {
-        return dishType;
-    }
-
-    public void setDishType(DishtypeEnum dishType) {
-        this.dishType = dishType;
-    }
-
-    public Double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(long price) {
         this.price = price;
+    }
+
+    public CategoryEnum getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
     }
 
     @Override
@@ -51,8 +51,8 @@ public class Dish {
         int result = 1;
         result = prime * result + id;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((dishType == null) ? 0 : dishType.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
+        result = prime * result + (int) (price ^ (price >>> 32));
+        result = prime * result + ((category == null) ? 0 : category.hashCode());
         return result;
     }
 
@@ -64,7 +64,7 @@ public class Dish {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Dish other = (Dish) obj;
+        Ingredient other = (Ingredient) obj;
         if (id != other.id)
             return false;
         if (name == null) {
@@ -72,19 +72,16 @@ public class Dish {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (dishType != other.dishType)
+        if (price != other.price)
             return false;
-        if (price == null) {
-            if (other.price != null)
-                return false;
-        } else if (!price.equals(other.price))
+        if (category != other.category)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Dish [id=" + id + ", name=" + name + ", dishType=" + dishType + ", price=" + price + "]";
+        return "Ingredient [id=" + id + ", name=" + name + ", price=" + price + ", category=" + category + "]";
     }
 
     
