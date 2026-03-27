@@ -56,9 +56,10 @@ public class IngredientRepository{
         try(Connection conn = dataSource.getConnection()){
             String sql = "SELECT id, name, price, category FROM ingredient WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
 
-            rs.getInt(id);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
 
             List<Ingredient> ingredient = new ArrayList<>();
 

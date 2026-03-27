@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hei.school.dish_application.repository.IngredientRepository;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,8 @@ public class IngredientController {
     }
     
     @GetMapping("/{id}")
-    public String getMethodName(@PathVariable("id") int ingredientId) {
-        return "";
+    public ResponseEntity<?> getMethodName(@PathVariable("id") int ingredientId) {
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(ingredientRepository.getIngredientById(ingredientId));
     }
     
 }
