@@ -52,7 +52,7 @@ public class IngredientRepository{
         }
     }
 
-    public List<Ingredient> getIngredientById(int id){
+    public Ingredient getIngredientById(int id){
         try(Connection conn = dataSource.getConnection()){
             String sql = "SELECT id, name, price, category FROM ingredient WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -61,25 +61,23 @@ public class IngredientRepository{
             
             ResultSet rs = ps.executeQuery();
 
-            List<Ingredient> ingredient = new ArrayList<>();
+            Ingredient ingredientById = new Ingredient();
 
             if(rs.next()){
-                Ingredient igredientById = new Ingredient();
+               
                 int idIngredient = rs.getInt("id");
                 String ingredientName = rs.getString("name");
                 Long ingredientPrice = rs.getLong("price");
                 String category = rs.getString("category");
                 CategoryEnum categoryValue = CategoryEnum.valueOf(category);
 
-                igredientById.setId(idIngredient);
-                igredientById.setName(ingredientName);
-                igredientById.setPrice(ingredientPrice);
-                igredientById.setCategory(categoryValue);
-
-                ingredient.add(igredientById);
-
+                ingredientById.setId(idIngredient);
+                ingredientById.setName(ingredientName);
+                ingredientById.setPrice(ingredientPrice);
+                ingredientById.setCategory(categoryValue);
+              
             }
-            return ingredient;
+            return ingredientById;
 
         }catch(SQLException e){
             throw new RuntimeException(e);
