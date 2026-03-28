@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/ingredient")
@@ -31,5 +33,7 @@ public class IngredientController {
     public ResponseEntity<?> getMethodName(@PathVariable("id") int ingredientId) {
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(ingredientRepository.getIngredientById(ingredientId));
     }
+
+
     
 }

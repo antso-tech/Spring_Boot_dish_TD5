@@ -1,20 +1,22 @@
 package hei.school.dish_application.entity;
 
-import java.util.List;
+
 
 public class Dish {
     private int id;
     private String name;
     private DishtypeEnum dishType;
-    private Double price;
-    private List<Ingredient> ingredients;
+    private Long price;
     
-    public Dish(int id, String name, DishtypeEnum dishType, Double price, List<Ingredient> ingredients) {
+    public Dish() {
+    }
+
+    public Dish(int id, String name, DishtypeEnum dishType, Long price) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
         this.price = price;
-        this.ingredients = ingredients;
+      
     }
 
     public int getId() {
@@ -41,26 +43,12 @@ public class Dish {
         this.dishType = dishType;
     }
 
-    public Double getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Long price) {
         this.price = price;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    @Override
-    public String toString() {
-        return "Dish [id=" + id + ", name=" + name + ", dishType=" + dishType + ", price=" + price + ", ingredients="
-                + ingredients + "]";
     }
 
     @Override
@@ -71,7 +59,6 @@ public class Dish {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((dishType == null) ? 0 : dishType.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((ingredients == null) ? 0 : ingredients.hashCode());
         return result;
     }
 
@@ -97,11 +84,6 @@ public class Dish {
             if (other.price != null)
                 return false;
         } else if (!price.equals(other.price))
-            return false;
-        if (ingredients == null) {
-            if (other.ingredients != null)
-                return false;
-        } else if (!ingredients.equals(other.ingredients))
             return false;
         return true;
     }
