@@ -12,16 +12,14 @@ import hei.school.dish_application.dataSource.DataSource;
 import hei.school.dish_application.entity.Dish;
 import hei.school.dish_application.entity.DishIngredient;
 import hei.school.dish_application.entity.DishtypeEnum;
-import hei.school.dish_application.entity.UnitType;
 
 @Component
 public class DishRepository {
-    private final IngredientRepository ingredientRepository;
+    
     private DataSource dataSource;
 
     public DishRepository(DataSource dataSource, IngredientRepository ingredientRepository) {
         this.dataSource = dataSource;
-        this.ingredientRepository = ingredientRepository;
     }
 
     public List<DishIngredient> findDishIngredientByIdDish(int dishId){
