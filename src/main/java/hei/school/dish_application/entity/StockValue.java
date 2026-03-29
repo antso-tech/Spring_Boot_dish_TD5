@@ -7,9 +7,10 @@ public class StockValue {
     public StockValue(double value, UnitType unit) {
         this.value = value;
         this.unit = unit;
-    }
+    }    
 
-    
+    public StockValue() {
+    }
 
     public double getValue() {
         return value;
