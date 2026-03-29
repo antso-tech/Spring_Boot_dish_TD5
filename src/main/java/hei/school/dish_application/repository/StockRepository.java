@@ -51,9 +51,12 @@ public class StockRepository {
 
             stockValue.setValue(values);
             stockValue.setUnit(unitType);
+            return stockValue;
             
         }
-        return stockValue;
+        else{
+            return null;
+        }
             
         } catch (Exception e) {
             throw new RuntimeException(e);
