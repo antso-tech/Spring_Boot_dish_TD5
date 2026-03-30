@@ -19,7 +19,7 @@ public class DishValidator {
         this.dishRepository = dishRepository;
     }
 
-    public void dishIdValidator(int idDish){
+    public void dishIdValidator(int idDish, List<DishIngredient> dishIngredients){
         
         Dish dish = dishRepository.findDishById(idDish);
     
@@ -28,10 +28,10 @@ public class DishValidator {
                
          }
 
-    }
+         if (dishIngredients == null || dishIngredients.isEmpty()) {
+            throw new BadRequestException("La liste des ingrédients ne doivent pas être null");
+         }
 
-    public void dishIngredientValidator(int idDish, List<DishIngredient> dishIngredients){
-        
         for(DishIngredient dishIngredient : dishIngredients){
           
             if (dishIngredient == null) {
@@ -40,6 +40,7 @@ public class DishValidator {
             }
 
         }
+
     }
 
 }

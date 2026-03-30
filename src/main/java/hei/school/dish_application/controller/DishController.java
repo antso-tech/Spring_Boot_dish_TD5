@@ -1,6 +1,7 @@
 package hei.school.dish_application.controller;
 
 import hei.school.dish_application.repository.IngredientRepository;
+import hei.school.dish_application.services.DishService;
 import hei.school.dish_application.validator.DishValidator;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +23,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/dishes")
 public class DishController {
-    private DishRepository dishRepository;
-    private DishValidator dishValidator;
+    private DishService dishService;
+ 
     
-    public DishController(DishRepository dishRepository, IngredientRepository ingredientRepository, DishValidator dishValidator) {
-        this.dishRepository = dishRepository;
-        this.dishValidator = dishValidator;
+    public DishController(DishService dishService) {
+        this.dishService = dishService;
+        
     }
 
     @GetMapping()
     public ResponseEntity<?> getMethodName() {
         try{
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dishRepository.getAllDishes());
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dishService.findAllDishes());
 
         }catch(Exception e){
             throw new RuntimeException(e);
@@ -44,9 +45,9 @@ public class DishController {
     public ResponseEntity<?> putDishIngredient(@PathVariable int id,@RequestBody(required = false) List<DishIngredient> ingredients){
         try {
 
-            dishValidator.dishIdValidator(id);
+            dishValidator.dishIdValidator(id, ingredients);
       
-            dishRepository.updateIngredientList(ingredients, id);
+            dishService.
 
             return ResponseEntity.ok().build();
             

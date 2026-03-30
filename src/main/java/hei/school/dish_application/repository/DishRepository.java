@@ -103,6 +103,7 @@ public class DishRepository {
                 ps.setInt(2, dishElements.getIngredient().getId());
                 ps.setLong(3, dishElements.getQuantity());
                 ps.setObject(4, dishElements.getUnit().name());
+                ps.addBatch();
             }
             
             int rowEffect = ps.executeUpdate();
@@ -128,7 +129,7 @@ public class DishRepository {
 
             PreparedStatement ps = conn.prepareStatement(detachIngredient);
             ps.setInt(1, idDish);
-            ResultSet rowEffect = ps.executeQuery();
+            int rowEffect = ps.executeUpdate();
             System.out.println("New ingredient deleted, number of row deleted " + rowEffect);
                 
           
@@ -162,11 +163,7 @@ public class DishRepository {
                     e1.printStackTrace();
                 }
                 throw new RuntimeException(e);
-            }
-            
-        
-
-        
+            }   
     }
 
     public Dish findDishById(int idDish){

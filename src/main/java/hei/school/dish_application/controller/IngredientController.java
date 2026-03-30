@@ -3,15 +3,10 @@ package hei.school.dish_application.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import hei.school.dish_application.entity.UnitType;
 import hei.school.dish_application.exception.BadRequestException;
-import hei.school.dish_application.repository.IngredientRepository;
 import hei.school.dish_application.repository.StockRepository;
+import hei.school.dish_application.services.IngredientService;
 import hei.school.dish_application.validator.IngredientValidator;
-
-import java.time.Instant;
-
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/ingredient")
 public class IngredientController {
 
-    private IngredientRepository ingredientRepository;
+    private IngredientService ingredientService;
     private IngredientValidator ingredientValidator;
-    private StockRepository stockRepository;
-    
-    public IngredientController(IngredientRepository ingredientRepository, StockRepository stockRepository, IngredientValidator ingredientValidator) {
-        this.ingredientRepository = ingredientRepository;
-        this.stockRepository = stockRepository;
+
+    public IngredientController(IngredientService ingredientService, StockRepository stockRepository, IngredientValidator ingredientValidator) {
+        this.ingredientService = ingredientService;
         this.ingredientValidator = ingredientValidator;
     }
 
@@ -41,7 +34,7 @@ public class IngredientController {
 
         return ResponseEntity
         .status(HttpStatusCode.valueOf(200))
-        .body(ingredientRepository.getIngredients());
+        .body(ingredientService.getAllIngredient());
     }
     
     @GetMapping("/{id}")
@@ -52,7 +45,7 @@ public class IngredientController {
 
         return ResponseEntity
         .status(HttpStatusCode.valueOf(200))
-        .body(ingredientRepository.getIngredientById(ingredientId));            
+        .body(ingredientService.getIngredientById(ingredientId));            
         } catch (BadRequestException e) {
             return ResponseEntity.status(HttpStatusCode.valueOf(404)).body(e.getMessage());
             
@@ -68,14 +61,9 @@ public class IngredientController {
 
         try {
             ingredientValidator.getIngredientValidator(ingredientId);
-            
-            Instant instantAt = ingredientValidator.validateAndConvertToDate(at);
-            UnitType unitToType = ingredientValidator.validateAndConvertUnit(unit);
 
-
-            return ResponseEntity
-            .status(HttpStatusCode.valueOf(200))
-            .body(stockRepository.getStockValues(ingredientId,instantAt , unitToType));
+            return ResponseEntity.status(HttpStatusCode.valueOf(200))
+            .body(ingredientService.getStockValue(ingredientId, at, unit));
 
         } catch (BadRequestException e) {
             return ResponseEntity.status(400).body(e.getMessage());
