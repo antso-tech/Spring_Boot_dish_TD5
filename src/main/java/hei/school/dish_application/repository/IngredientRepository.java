@@ -75,9 +75,12 @@ public class IngredientRepository{
                 ingredientById.setName(ingredientName);
                 ingredientById.setPrice(ingredientPrice);
                 ingredientById.setCategory(categoryValue);
+                return ingredientById;
               
+            }else{
+                return null;
             }
-            return ingredientById;
+          
 
         }catch(SQLException e){
             throw new RuntimeException(e);
