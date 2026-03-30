@@ -1,5 +1,6 @@
 package hei.school.dish_application.validator;
 
+import java.time.DateTimeException;
 import java.time.Instant;
 
 import org.springframework.stereotype.Component;
@@ -30,13 +31,33 @@ public class IngredientValidator {
 
     }
 
-    public void getStockValidator(Instant at, UnitType unit){
-        if(at == null){
-            throw new BadRequestException("Either mandatory query parameter `at` or `unit` is not provided");
+    public Instant validateAndConvertToDate(String at){
+        if(at == null || at.isBlank()){
+            throw new BadRequestException("""
+                Either mandatory query parameter `at` or `unit` is not provided
+                """);
 
-        }else if(unit == null){
-            throw new BadRequestException("Either mandatory query parameter `at` or `unit` is not provided");
+        }
+        try {
+            return Instant.parse(at);
+        } catch (DateTimeException e) {
+            throw new BadRequestException("""
+            Invalid date format for 'at'. Use ISO-8601 format (e.g., 2024-01-06T12:00:00Z)
+            """);
+        }
+
+    }
+
+       public UnitType validateAndConvertUnit(String unit) {
+        if (unit == null || unit.isBlank()) {
+            throw new BadRequestException("Either mandatory query parameter `at` or `unit` is not provided.");
         }
         
+        try {
+            return UnitType.valueOf(unit.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("Unit must be PCS, KG or L" + unit);
+        }
     }
+
 }

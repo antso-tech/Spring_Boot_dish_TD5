@@ -9,7 +9,6 @@ import hei.school.dish_application.exception.BadRequestException;
 import hei.school.dish_application.repository.IngredientRepository;
 import hei.school.dish_application.repository.StockRepository;
 import hei.school.dish_application.validator.IngredientValidator;
-import hei.school.dish_application.exception.*;
 
 import java.time.Instant;
 
@@ -63,28 +62,26 @@ public class IngredientController {
     }
     
     @GetMapping("/{id}/stock")
-    public ResponseEntity<?> getStock(@PathVariable("id") int ingredientId, @RequestParam Instant at,@RequestParam UnitType unit) {
+    public ResponseEntity<?> getStock(@PathVariable("id") int ingredientId, @RequestParam String at,@RequestParam String unit) {
+
+  
 
         try {
             ingredientValidator.getIngredientValidator(ingredientId);
-            ingredientValidator.getStockValidator(at,unit);
+            
+            Instant instantAt = ingredientValidator.validateAndConvertToDate(at);
+            UnitType unitToType = ingredientValidator.validateAndConvertUnit(unit);
+
 
             return ResponseEntity
             .status(HttpStatusCode.valueOf(200))
-            .body(stockRepository.getStockValues(ingredientId, at, unit));
+            .body(stockRepository.getStockValues(ingredientId,instantAt , unitToType));
 
         } catch (BadRequestException e) {
             return ResponseEntity.status(400).body(e.getMessage());
             
-        }
-        
-        
-
-            
-  
+        }       
 
     }
-    
-    
     
 }
