@@ -1,6 +1,7 @@
 package hei.school.dish_application.controller;
 
 import hei.school.dish_application.repository.IngredientRepository;
+import hei.school.dish_application.validator.DishValidator;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/dishes")
 public class DishController {
     private DishRepository dishRepository;
+    private DishValidator dishValidator;
     
-    public DishController(DishRepository dishRepository, IngredientRepository ingredientRepository) {
+    public DishController(DishRepository dishRepository, IngredientRepository ingredientRepository, DishValidator dishValidator) {
         this.dishRepository = dishRepository;
+        this.dishValidator = dishValidator;
     }
 
     @GetMapping()
@@ -38,15 +41,17 @@ public class DishController {
     }    
 
     @PutMapping("/{id}/ingredients")
-    public ResponseEntity<?> putDishIngredient(@PathVariable int dishId,@RequestBody(required = false) List<DishIngredient> ingredients){
+    public ResponseEntity<?> putDishIngredient(@PathVariable int id,@RequestBody(required = false) List<DishIngredient> ingredients){
         try {
 
-            dishRepository.updateIngredientList(ingredients,dishId);
+            dishValidator.dishValidator(id);
+      
+            dishRepository.updateIngredientList(ingredients, id);
 
             return ResponseEntity.ok().build();
             
         } catch (BadRequestException e) {
-            return ResponseEntity.status(HttpStatusCode.valueOf(400)).body("");
+            return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(e.getMessage());
             
         }
     }

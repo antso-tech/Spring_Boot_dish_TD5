@@ -145,4 +145,42 @@ public class DishRepository {
         
     }
 
+    public Dish findDishById(int idDish){
+        try (Connection conn = dataSource.getConnection()){
+            String SQL = """
+                    SELECT id, name, dishType, price from DISH WHERE id = ?
+                    """;
+
+            PreparedStatement ps = conn.prepareStatement(SQL);
+            ps.setInt(1, idDish);
+            ResultSet rs = ps.executeQuery();
+
+            Dish dish = new Dish();
+              
+            if(rs.next()){
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String dishType = rs.getString("dishType");
+                DishtypeEnum dishTypeEnum = DishtypeEnum.valueOf(dishType);
+                long price = rs.getLong("price");
+
+                dish.setId(id);
+                dish.setName(name);
+                dish.setDishType(dishTypeEnum);
+                dish.setPrice(price);
+                
+
+                return dish;
+            }else{
+                return null;
+            }
+
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+            
+        }
+
+    }
+
 }
