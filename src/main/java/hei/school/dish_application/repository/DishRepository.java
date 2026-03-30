@@ -3,6 +3,7 @@ package hei.school.dish_application.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +89,8 @@ public class DishRepository {
     }
 
 
-    public void associateDishIngredient(int idDish,List<DishIngredient> dishIngredients){
-        try(Connection conn = dataSource.getConnection()) {
+    public void associateDishIngredient(Connection conn, int idDish,List<DishIngredient> dishIngredients){
+        try {
             String sql = """
         INSERT INTO 
         DishIngredient (id_dish, id_ingredient, quantity_required, unit) 
@@ -117,10 +118,10 @@ public class DishRepository {
         }
     }
 
-    public void detachDishIngredient(int idDish){
+    public void detachDishIngredient(Connection conn,int idDish){
         
 
-        try(Connection conn = dataSource.getConnection()){
+        try{
             String detachIngredient = """
                 DELETE FROM DishIngredient WHERE id_dish = ?
             """;
@@ -136,12 +137,35 @@ public class DishRepository {
         }
     }
 
-        public void updateIngredientList(List<DishIngredient> dishIngredients, int idDish){
-            
-            detachDishIngredient(idDish);
-           if(dishIngredients.isEmpty() || dishIngredients == null){
-            associateDishIngredient(idDish, dishIngredients);
+    public void updateIngredientList(List<DishIngredient> dishIngredients, int idDish){
+
+        Connection conn = null;
+
+        try {
+            conn = dataSource.getConnection();
+            conn.setAutoCommit(false);
+
+            detachDishIngredient(conn ,idDish);
+
+            if(!dishIngredients.isEmpty()){
+            associateDishIngredient(conn, idDish, dishIngredients);
+
            }
+
+           conn.commit();
+           conn.setAutoCommit(true);
+                
+            } catch (Exception e) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                throw new RuntimeException(e);
+            }
+            
+        
+
         
     }
 
