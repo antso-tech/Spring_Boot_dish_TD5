@@ -89,5 +89,52 @@ public class DishRepository {
 
     }
 
+    public void associateDishIngredient(int idDish,List<DishIngredient> dishIngredients){
+        try(Connection conn = dataSource.getConnection()) {
+            String sql = """
+        INSERT INTO 
+        DishIngredient (id_dish, id_ingredient, quantity_required, unit) 
+        VALUES (?,?,?,?::unit_type)
+                    """;
+        
+            PreparedStatement ps = conn.prepareStatement(sql);
+            for(DishIngredient dishElements : dishIngredients){
+                ps.setInt(1, idDish);
+                ps.setInt(2, dishElements.getIngredient().getId());
+                ps.setLong(3, dishElements.getQuantity());
+                ps.setObject(4, dishElements.getUnit().name());
+            }
+            
+            int rowEffect = ps.executeUpdate();
+
+            if (rowEffect > 1) {
+               System.out.println("New ingredient deleted, number of row deleted " + rowEffect);
+                
+            }
+         
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void detachDishIngredient(int idDish){
+        
+
+        try(Connection conn = dataSource.getConnection()){
+            String detachIngredient = """
+                DELETE FROM DishIngredient WHERE id_dish = ?
+            """;
+
+            PreparedStatement ps = conn.prepareStatement(detachIngredient);
+            ps.setInt(1, idDish);
+            ResultSet rowEffect = ps.executeQuery();
+            System.out.println("New ingredient deleted, number of row deleted " + rowEffect);
+                
+          
+        }catch(Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
     
 }

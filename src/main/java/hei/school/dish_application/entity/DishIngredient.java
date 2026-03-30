@@ -1,14 +1,34 @@
 package hei.school.dish_application.entity;
 
 public class DishIngredient {
-    Ingredient ingredient;
+    private Ingredient ingredient;
+    private long quantity;
+    private UnitType unit;
 
-    public DishIngredient( Ingredient ingredient) {
-
+    
+    public DishIngredient(Ingredient ingredient, long quantity, UnitType unit) {
         this.ingredient = ingredient;
+        this.quantity = quantity;
+        this.unit = unit;
     }
 
     public DishIngredient() {
+    }
+    
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
+    }
+
+    public UnitType getUnit() {
+        return unit;
+    }
+
+    public void setUnit(UnitType unit) {
+        this.unit = unit;
     }
 
     public Ingredient getIngredient() {
