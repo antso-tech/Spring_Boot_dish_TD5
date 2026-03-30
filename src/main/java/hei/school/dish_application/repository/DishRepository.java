@@ -84,10 +84,9 @@ public class DishRepository {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
-
 
     }
+
 
     public void associateDishIngredient(int idDish,List<DishIngredient> dishIngredients){
         try(Connection conn = dataSource.getConnection()) {
@@ -136,5 +135,14 @@ public class DishRepository {
             throw new RuntimeException(e.getMessage());
         }
     }
-    
+
+        public void updateIngredientList(List<DishIngredient> dishIngredients, int idDish){
+            
+            detachDishIngredient(idDish);
+           if(dishIngredients.isEmpty() || dishIngredients == null){
+            associateDishIngredient(idDish, dishIngredients);
+           }
+        
+    }
+
 }
