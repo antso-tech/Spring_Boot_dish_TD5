@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import hei.school.dish_application.entity.Ingredient;
+import hei.school.dish_application.entity.StockMovement;
 import hei.school.dish_application.entity.StockValue;
 import hei.school.dish_application.entity.UnitType;
-import hei.school.dish_application.exception.BadRequestException;
 import hei.school.dish_application.repository.DishRepository;
 import hei.school.dish_application.repository.IngredientRepository;
 import hei.school.dish_application.repository.StockRepository;
@@ -33,7 +33,6 @@ public class IngredientService {
     }
 
     public Ingredient getIngredientById(int id){
-        Ingredient ingredient = ingredientRepository.getIngredientById(id);
  
         getIngredientById(id);
 
@@ -47,6 +46,14 @@ public class IngredientService {
         UnitType unitToType = ingredientValidator.validateAndConvertUnit(unit);
 
         return stockRepository.getStockValues(ingredientId, InstantAt, unitToType);
+    }
+
+    public List<StockMovement> gMovements(String startDate, String endDate, int idIngredients){
+
+        Instant instantFrom = ingredientValidator.validateAndConvertFrom(startDate);
+        Instant instantTo = ingredientValidator.validateAndConvert(endDate);
+        
+        return ingredientRepository.findStockMovementDate(instantFrom, instantTo, idIngredients);
     }
     
 }

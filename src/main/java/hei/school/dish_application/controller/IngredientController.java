@@ -71,5 +71,13 @@ public class IngredientController {
         }       
 
     }
+
+    @GetMapping("/{id}/stockMovements")
+    public ResponseEntity<?> getStockHourEntity(@PathVariable("id") int idIngredient ,@RequestParam String from, @RequestParam String to){
+        return ResponseEntity.status(200).body(ingredientService.gMovements(from, to, idIngredient));
+        
+    }
+
+    
     
 }

@@ -15,6 +15,11 @@ public class StockMovement {
         this.creationDateTime = creationDateTime;
     }
 
+    
+    public StockMovement() {
+    }
+
+
     public int getId() {
         return id;
     }

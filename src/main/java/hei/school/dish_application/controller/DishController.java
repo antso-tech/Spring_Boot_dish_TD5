@@ -45,9 +45,7 @@ public class DishController {
     public ResponseEntity<?> putDishIngredient(@PathVariable int id,@RequestBody(required = false) List<DishIngredient> ingredients){
         try {
 
-            dishValidator.dishIdValidator(id, ingredients);
       
-            dishService.
 
             return ResponseEntity.ok().build();
             

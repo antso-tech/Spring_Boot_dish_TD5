@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import hei.school.dish_application.entity.Dish;
 import hei.school.dish_application.entity.DishIngredient;
-import hei.school.dish_application.entity.Ingredient;
 import hei.school.dish_application.exception.BadRequestException;
 import hei.school.dish_application.repository.DishRepository;
 

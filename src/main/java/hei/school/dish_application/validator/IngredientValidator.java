@@ -48,6 +48,26 @@ public class IngredientValidator {
 
     }
 
+    public Instant validateAndConvertFrom(String from){
+        if(from == null || from.isBlank()){
+            throw new BadRequestException("""
+                Either mandatory query parameter `from` or `to` is not provided
+                """);
+        }
+       return Instant.parse(from);
+    }
+
+        public Instant validateAndConvert( String to){
+        if(to == null || to.isBlank()){
+            throw new BadRequestException("""
+                Either mandatory query parameter `from` or `to` is not provided
+                """);
+
+        }
+        return Instant.parse(to);
+    
+    }
+
        public UnitType validateAndConvertUnit(String unit) {
         if (unit == null || unit.isBlank()) {
             throw new BadRequestException("Either mandatory query parameter `at` or `unit` is not provided.");
