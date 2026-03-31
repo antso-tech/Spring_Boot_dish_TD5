@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import hei.school.dish_application.dataSource.DataSource;
 import hei.school.dish_application.entity.CategoryEnum;
 import hei.school.dish_application.entity.Ingredient;
+import hei.school.dish_application.entity.MovementTypeEnum;
 import hei.school.dish_application.entity.StockMovement;
 import hei.school.dish_application.entity.StockValue;
 import hei.school.dish_application.entity.UnitType;
@@ -118,18 +119,21 @@ ORDER BY creation_datetime DESC;
         ResultSet rs = ps.executeQuery();
 
         
-        StockMovement stockMovement = new StockMovement(0, null, null, null);
+        StockMovement stockMovement = new StockMovement();
 
-        if (rs.next()) {
+        while (rs.next()) {
             int idStock = rs.getInt("id");
             java.sql.Timestamp datetime = rs.getTimestamp("creation_datetime");
             Instant creationDateTime = datetime.toInstant();
             String unit = rs.getString("unit");
             UnitType unitType = UnitType.valueOf(unit);
             long value = rs.getLong("value");
+            String type = rs.getString("type");
+            MovementTypeEnum movementType = MovementTypeEnum.valueOf(type);
 
             stockMovement.setId(idStock);
             stockMovement.setCreationDateTime(creationDateTime);
+            stockMovement.setType(movementType);
             
             StockValue stockValue = new StockValue();
 

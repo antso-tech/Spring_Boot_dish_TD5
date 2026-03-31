@@ -48,12 +48,12 @@ public class IngredientService {
         return stockRepository.getStockValues(ingredientId, InstantAt, unitToType);
     }
 
-    public List<StockMovement> gMovements(String startDate, String endDate, int idIngredients){
+    public List<StockMovement> getStockMovementsByTime(String from, String to, int idIngredients){
 
-        Instant instantFrom = ingredientValidator.validateAndConvertFrom(startDate);
-        Instant instantTo = ingredientValidator.validateAndConvert(endDate);
+        Instant instantFrom = ingredientValidator.validateAndConvertFrom(from);
+        Instant instantTo = ingredientValidator.validateAndConvert(to);
         
-        return ingredientRepository.findStockMovementDate(instantFrom, instantTo, idIngredients);
+        return ingredientRepository.findStockMovementDates(instantFrom, instantTo, idIngredients);
     }
     
 }
