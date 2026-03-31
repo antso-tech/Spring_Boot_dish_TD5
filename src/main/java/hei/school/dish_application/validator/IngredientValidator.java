@@ -20,11 +20,9 @@ public class IngredientValidator {
     }
 
     public void getIngredientValidator(Integer idIngredient) {
-
         Ingredient ingredient = ingredientRepository.getIngredientById(idIngredient);
 
-        if (ingredient == null) {
-                
+        if (ingredient == null) {   
             throw new BadRequestException("Ingredient.id="+ idIngredient + " is not found");
             
         }

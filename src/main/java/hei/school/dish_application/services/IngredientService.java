@@ -33,8 +33,9 @@ public class IngredientService {
     }
 
     public Ingredient getIngredientById(int id){
- 
-        getIngredientById(id);
+            
+        ingredientValidator.getIngredientValidator(id);
+        
 
         return ingredientRepository.getIngredientById(id);
       
@@ -49,6 +50,7 @@ public class IngredientService {
     }
 
     public List<StockMovement> getStockMovementsByTime(String from, String to, int idIngredients){
+        ingredientValidator.getIngredientValidator(idIngredients);
 
         Instant instantFrom = ingredientValidator.validateAndConvertFrom(from);
         Instant instantTo = ingredientValidator.validateAndConvert(to);

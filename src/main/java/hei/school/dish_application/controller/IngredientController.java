@@ -57,8 +57,6 @@ public class IngredientController {
     @GetMapping("/{id}/stock")
     public ResponseEntity<?> getStock(@PathVariable("id") int ingredientId, @RequestParam String at,@RequestParam String unit) {
 
-  
-
         try {
             ingredientValidator.getIngredientValidator(ingredientId);
 
@@ -75,6 +73,9 @@ public class IngredientController {
     @GetMapping("/{id}/stockMovements")
     public ResponseEntity<?> getStockHourEntity(@PathVariable("id") int idIngredient ,@RequestParam String from, @RequestParam String to){
         try {
+
+            ingredientValidator.getIngredientValidator(idIngredient);
+
             return ResponseEntity.status(200).body(ingredientService.getStockMovementsByTime(from, to, idIngredient));
             
         } catch (BadRequestException e) {
